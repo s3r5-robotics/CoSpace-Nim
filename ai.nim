@@ -103,53 +103,27 @@ proc updateObjectInfo(x: cint, y: cint, state: cint, duration: cint): void {.exp
 proc getMySMS(): cint {.exportc: "GetMySMS", dynlib.} =
     return MySMS
 
-proc setDataAI*(packet: ptr seq[cint]; AI_IN: ptr seq[cint]): void {.exportc: "SetDataAI", dynlib.} =
-  var sum: cint = 0
-  US_Front = AI_IN[0]
-  packet[0] = US_Front
-  inc(sum, US_Front)
-  US_Left = AI_IN[1]
-  packet[1] = US_Left
-  inc(sum, US_Left)
-  US_Right = AI_IN[2]
-  packet[2] = US_Right
-  inc(sum, US_Right)
-  CSLeft_R = AI_IN[3]
-  packet[3] = CSLeft_R
-  inc(sum, CSLeft_R)
-  CSLeft_G = AI_IN[4]
-  packet[4] = CSLeft_G
-  inc(sum, CSLeft_G)
-  CSLeft_B = AI_IN[5]
-  packet[5] = CSLeft_B
-  inc(sum, CSLeft_B)
-  CSRight_R = AI_IN[6]
-  packet[6] = CSRight_R
-  inc(sum, CSRight_R)
-  CSRight_G = AI_IN[7]
-  packet[7] = CSRight_G
-  inc(sum, CSRight_G)
-  CSRight_B = AI_IN[8]
-  packet[8] = CSRight_B
-  inc(sum, CSRight_B)
-  PositionX = AI_IN[9]
-  packet[9] = PositionX
-  inc(sum, PositionX)
-  PositionY = AI_IN[10]
-  packet[10] = PositionY
-  inc(sum, PositionY)
-  TM_State = AI_IN[11]
-  packet[11] = TM_State
-  inc(sum, TM_State)
-  Compass = AI_IN[12]
-  packet[12] = Compass
-  inc(sum, Compass)
-  Time = AI_IN[13]
-  packet[13] = Time
-  inc(sum, Time)
-  packet[14] = sum
+proc setDataAI*(packet: ptr UncheckedArray[cint]; AI_IN: ptr UncheckedArray[cint]): void {.exportc: "SetDataAI", dynlib.} =
+    var sum: cint = 0
 
-proc getCommand*(AIOut: ptr seq[cint]): void {.exportc: "GetCommand", dynlib.} =
+    US_Front = AI_IN[0]; packet[0] = US_Front; sum += US_Front;
+    US_Left = AI_IN[1]; packet[1] = US_Left; sum += US_Left;
+    US_Right = AI_IN[2]; packet[2] = US_Right; sum += US_Right;
+    CSLeft_R = AI_IN[3]; packet[3] = CSLeft_R; sum += CSLeft_R;
+    CSLeft_G = AI_IN[4]; packet[4] = CSLeft_G; sum += CSLeft_G;
+    CSLeft_B = AI_IN[5]; packet[5] = CSLeft_B; sum += CSLeft_B;
+    CSRight_R = AI_IN[6]; packet[6] = CSRight_R; sum += CSRight_R;
+    CSRight_G = AI_IN[7]; packet[7] = CSRight_G; sum += CSRight_G;
+    CSRight_B = AI_IN[8]; packet[8] = CSRight_B; sum += CSRight_B;
+    PositionX = AI_IN[9]; packet[9] = PositionX; sum += PositionX;
+    PositionY = AI_IN[10]; packet[10] = PositionY; sum += PositionY;
+    TM_State = AI_IN[11]; packet[11] = TM_State; sum += TM_State;
+    Compass = AI_IN[12]; packet[12] = Compass; sum += Compass;
+    Time = AI_IN[13]; packet[13] = Time; sum += Time;
+
+    packet[14] = sum;
+
+proc getCommand*(AIOut: ptr UncheckedArray[cint]): void {.exportc: "GetCommand", dynlib.} =
   AIOut[0] = WheelLeft
   AIOut[1] = WheelRight
   AIOut[2] = LED_1
