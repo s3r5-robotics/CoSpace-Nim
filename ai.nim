@@ -1,3 +1,5 @@
+import strutils
+
 const TeamName: cstring = "SERS TEAM"
 
 var CurGame: cint = 0
@@ -34,7 +36,13 @@ proc getGameID(): cint {.exportc: "GetGameID", dynlib.} =
 proc isGameEnd(): cint {.exportc: "IsGameEnd", dynlib.} =
     return bGameEnd
 
-# GetDebugInfo
+proc getDebugInfo*(): cstring {.exportc: "GetDebugInfo", dynlib.} =
+    let infoData = @[
+        "bGameEnd=$1" % [$bGameEnd],
+    ]
+    
+    let info = infoData.join(";") & ";"
+    return info
 
 proc getTeamName(): cstring {.exportc: "GetTeamName", dynlib.} =
     return TeamName
