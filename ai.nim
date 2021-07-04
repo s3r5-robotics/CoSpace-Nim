@@ -1,3 +1,5 @@
+{.optimization: speed.}
+
 import strutils
 
 const TeamName: cstring = "SERS TEAM"
