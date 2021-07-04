@@ -8,6 +8,11 @@ var Teleport: cint = 0
 var bGameEnd: cint = 0
 var AI_TeamID = 0
 
+var WheelLeft: cint = 0
+var WheelRight: cint = 0
+var LED_1: cint = 0
+var MyState: cint = 0
+
 var SuperObj_X: cint = 0
 var SuperObj_Y: cint = 0
 var SuperObj_Num: cint = 0
@@ -84,4 +89,9 @@ proc getMySMS(): cint {.exportc: "GetMySMS", dynlib.} =
     return MySMS
 
 # SetDataAI
-# GetCommand
+proc getCommand*(AIOut: ptr seq[cint]): void {.exportc: "GetCommand", dynlib.} =
+  AIOut[0] = WheelLeft
+  AIOut[1] = WheelRight
+  AIOut[2] = LED_1
+  AIOut[3] = MyState
+
