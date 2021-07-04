@@ -28,6 +28,21 @@ var ObjDuration: cint = 0
 
 var MySMS: cint = 0
 
+var US_Front: cint = 0
+var US_Left: cint = 0
+var US_Right: cint = 0
+var CSLeft_R: cint = 0
+var CSLeft_G: cint = 0
+var CSLeft_B: cint = 0
+var CSRight_R: cint = 0
+var CSRight_G: cint = 0
+var CSRight_B: cint = 0
+var PositionX: cint = 0
+var PositionY: cint = 0
+var TM_State: cint = 0
+var Compass: cint = 0
+var Time: cint = 0
+
 proc setGameID(GameID: cint): void {.exportc: "SetGameID", dynlib.} =
     CurGame = GameID
     bGameEnd = 0
@@ -88,7 +103,52 @@ proc updateObjectInfo(x: cint, y: cint, state: cint, duration: cint): void {.exp
 proc getMySMS(): cint {.exportc: "GetMySMS", dynlib.} =
     return MySMS
 
-# SetDataAI
+proc setDataAI*(packet: ptr seq[cint]; AI_IN: ptr seq[cint]): void {.exportc: "SetDataAI", dynlib.} =
+  var sum: cint = 0
+  US_Front = AI_IN[0]
+  packet[0] = US_Front
+  inc(sum, US_Front)
+  US_Left = AI_IN[1]
+  packet[1] = US_Left
+  inc(sum, US_Left)
+  US_Right = AI_IN[2]
+  packet[2] = US_Right
+  inc(sum, US_Right)
+  CSLeft_R = AI_IN[3]
+  packet[3] = CSLeft_R
+  inc(sum, CSLeft_R)
+  CSLeft_G = AI_IN[4]
+  packet[4] = CSLeft_G
+  inc(sum, CSLeft_G)
+  CSLeft_B = AI_IN[5]
+  packet[5] = CSLeft_B
+  inc(sum, CSLeft_B)
+  CSRight_R = AI_IN[6]
+  packet[6] = CSRight_R
+  inc(sum, CSRight_R)
+  CSRight_G = AI_IN[7]
+  packet[7] = CSRight_G
+  inc(sum, CSRight_G)
+  CSRight_B = AI_IN[8]
+  packet[8] = CSRight_B
+  inc(sum, CSRight_B)
+  PositionX = AI_IN[9]
+  packet[9] = PositionX
+  inc(sum, PositionX)
+  PositionY = AI_IN[10]
+  packet[10] = PositionY
+  inc(sum, PositionY)
+  TM_State = AI_IN[11]
+  packet[11] = TM_State
+  inc(sum, TM_State)
+  Compass = AI_IN[12]
+  packet[12] = Compass
+  inc(sum, Compass)
+  Time = AI_IN[13]
+  packet[13] = Time
+  inc(sum, Time)
+  packet[14] = sum
+
 proc getCommand*(AIOut: ptr seq[cint]): void {.exportc: "GetCommand", dynlib.} =
   AIOut[0] = WheelLeft
   AIOut[1] = WheelRight
