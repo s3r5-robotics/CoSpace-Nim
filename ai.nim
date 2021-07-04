@@ -155,3 +155,10 @@ proc getCommand*(AIOut: ptr seq[cint]): void {.exportc: "GetCommand", dynlib.} =
   AIOut[2] = LED_1
   AIOut[3] = MyState
 
+proc onTimer(): void {.exportc: "OnTimer", dynlib.} =
+    ## Main robot login
+    case CurGame:
+        of 0:
+            echo "0"
+        else:
+            echo "defaulted"
