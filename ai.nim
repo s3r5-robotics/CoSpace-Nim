@@ -43,6 +43,8 @@ var TM_State: cint = 0
 var Compass: cint = 0
 var Time: cint = 0
 
+var TimerDuration: cint = 0
+
 proc setGameID(GameID: cint): void {.exportc: "SetGameID", dynlib.} =
     CurGame = GameID
     bGameEnd = 0
@@ -59,6 +61,7 @@ proc isGameEnd(): cint {.exportc: "IsGameEnd", dynlib.} =
 proc getDebugInfo*(): cstring {.exportc: "GetDebugInfo", dynlib.} =
     let infoData = @[
         "bGameEnd=$1" % [$bGameEnd],
+        "TimerDuration=$1" % [$TimerDuration]
     ]
     
     let info = infoData.join(";") & ";"
@@ -131,6 +134,7 @@ proc getCommand*(AIOut: ptr UncheckedArray[cint]): void {.exportc: "GetCommand",
 
 proc onTimer(): void {.exportc: "OnTimer", dynlib.} =
     ## Main robot login
+    TimerDuration += 1
     case CurGame:
         of 0:
             echo "0"
