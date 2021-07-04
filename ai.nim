@@ -47,17 +47,17 @@ var Time: cint = 0
 
 var TimerDuration: cint = 0
 
-proc setGameID(GameID: cint): void {.exportc: "SetGameID", dynlib.} =
+proc setGameID*(GameID: cint): void {.exportc: "SetGameID", dynlib.} =
     CurGame = GameID
     bGameEnd = 0
 
-proc setTeamID(TeamID: cint): void {.exportc: "SetTeamID", dynlib.} =
+proc setTeamID*(TeamID: cint): void {.exportc: "SetTeamID", dynlib.} =
     AI_TeamID = TeamID
 
-proc getGameID(): cint {.exportc: "GetGameID", dynlib.} =
+proc getGameID*(): cint {.exportc: "GetGameID", dynlib.} =
     return CurGame
 
-proc isGameEnd(): cint {.exportc: "IsGameEnd", dynlib.} =
+proc isGameEnd*(): cint {.exportc: "IsGameEnd", dynlib.} =
     return bGameEnd
 
 proc getDebugInfo*(): cstring {.exportc: "GetDebugInfo", dynlib.} =
@@ -69,17 +69,17 @@ proc getDebugInfo*(): cstring {.exportc: "GetDebugInfo", dynlib.} =
     let info = infoData.join(";") & ";"
     return info
 
-proc getTeamName(): cstring {.exportc: "GetTeamName", dynlib.} =
+proc getTeamName*(): cstring {.exportc: "GetTeamName", dynlib.} =
     return TeamName
 
-proc getCurAction(): cint {.exportc: "GetCurAction", dynlib.} =
+proc getCurAction*(): cint {.exportc: "GetCurAction", dynlib.} =
     return CurAction
 
-proc getTeleport(): cint {.exportc: "GetTeleport", dynlib.} =
+proc getTeleport*(): cint {.exportc: "GetTeleport", dynlib.} =
     ## Only Used by CsBot Rescue Platform
     return Teleport
 
-proc setSuperObj(x: cint, y: cint, num: cint): void {.exportc: "SetSuperObj", dynlib.} =
+proc setSuperObj*(x: cint, y: cint, num: cint): void {.exportc: "SetSuperObj", dynlib.} =
     ## Only Used by CsBot Rescue Platform
     SuperObj_X = x
     SuperObj_Y = y
@@ -91,21 +91,21 @@ proc getSuperObj*(x: ptr cint; y: ptr cint; num: ptr cint): void {.exportc: "Get
     y[] = SuperObj_Y
     num[] = SuperObj_Num
 
-proc updateRobInfo(sms: cint, x: cint, y: cint): void {.exportc: "UpdateRobInfo", dynlib.} =
+proc updateRobInfo*(sms: cint, x: cint, y: cint): void {.exportc: "UpdateRobInfo", dynlib.} =
     ## Used by CoSpace Rescue Simulation.
     ## Called each time frame by simulator to update the other robot information.
     OtherRob_SMS = sms
     OtherRob_PositionX = x
     OtherRob_PositionY = y
 
-proc updateObjectInfo(x: cint, y: cint, state: cint, duration: cint): void {.exportc: "UpdateObjectInfo", dynlib.} =
+proc updateObjectInfo*(x: cint, y: cint, state: cint, duration: cint): void {.exportc: "UpdateObjectInfo", dynlib.} =
     ## Only Used by CsBot Rescue Platform
     ObjState = state
     ObjPositionX = x
     ObjPositionY = y
     ObjDuration = duration
 
-proc getMySMS(): cint {.exportc: "GetMySMS", dynlib.} =
+proc getMySMS*(): cint {.exportc: "GetMySMS", dynlib.} =
     return MySMS
 
 proc setDataAI*(packet: ptr UncheckedArray[cint]; AI_IN: ptr UncheckedArray[cint]): void {.exportc: "SetDataAI", dynlib.} =
@@ -134,7 +134,7 @@ proc getCommand*(AIOut: ptr UncheckedArray[cint]): void {.exportc: "GetCommand",
   AIOut[2] = LED_1
   AIOut[3] = MyState
 
-proc onTimer(): void {.exportc: "OnTimer", dynlib.} =
+proc onTimer*(): void {.exportc: "OnTimer", dynlib.} =
     ## Main robot login
     TimerDuration += 1
     case CurGame:
